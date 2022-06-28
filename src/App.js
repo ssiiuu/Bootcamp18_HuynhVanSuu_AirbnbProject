@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  BrowserRouter,
-  Route,
-  Router,
-  Switch,
-  useHistory,
-} from "react-router-dom";
+import { Route, Router, Switch } from "react-router-dom";
 import Secureview from "./HOC/Secureview/Secureview";
 import AdminAddLocation from "./Page/AdminLocations/AdminAddLocation/AdminAddLocation";
 import AdminEditLocation from "./Page/AdminLocations/AdminEditLocation/AdminEditLocation";
@@ -21,12 +15,14 @@ import Login from "./Page/Login/Login";
 import AdminTemplate from "./template/AdminTemplate/AdminTemplate";
 import UserTemplate from "./template/UserTemplate/UserTemplate";
 import { createBrowserHistory } from "history";
+import Loading from "./components/Loading/Loading";
 
 export const history = createBrowserHistory();
 
 export default function App() {
   return (
     <div>
+      <Loading />
       <Router history={history}>
         <Switch>
           <Route

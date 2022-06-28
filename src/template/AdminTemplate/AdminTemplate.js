@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Layout, Menu, Breadcrumb, Button } from "antd";
+import { Layout, Menu, Breadcrumb } from "antd";
 import {
   UserOutlined,
   EnvironmentOutlined,
@@ -111,10 +111,7 @@ export default function AdminTemplate({ Component }) {
               style={{
                 margin: "16px 0",
               }}
-            >
-              {/* <Breadcrumb.Item>User</Breadcrumb.Item>
-              <Breadcrumb.Item>Bill</Breadcrumb.Item> */}
-            </Breadcrumb>
+            ></Breadcrumb>
             <div
               className="site-layout-background"
               style={{

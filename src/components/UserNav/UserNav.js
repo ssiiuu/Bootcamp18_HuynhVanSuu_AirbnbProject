@@ -8,12 +8,10 @@ import localStorageServ from "../../Service/locaStorage.service";
 export default function UserNav() {
   const history = useHistory();
   let userLogin = useSelector((state) => state.userReducer.userLogin);
-  // console.log({ userLogin });
   let dispatch = useDispatch();
   const handleLogout = () => {
-    // localStorageServ.userLogin.remove();
-    // localStorageServ.tokenAdmin.remove();
-    localStorage.clear();
+    localStorageServ.userLogin.remove();
+    localStorageServ.tokenAdmin.remove();
     dispatch({
       type: LOGIN,
       payload: null,

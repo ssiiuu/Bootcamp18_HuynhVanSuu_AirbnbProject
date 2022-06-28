@@ -3,12 +3,12 @@ import { history } from "../../App";
 import httpServ from "../../Service/http.service";
 import { ADD_ROOM, GET_ROOM_DETAIL, GET_ROOM_LIST } from "../type/roomType";
 
-export const getRoomListAction = () => {
+export const getRoomListAction = (locationId = "") => {
   return (dispatch) => {
     httpServ
-      .getRoomList()
+      .getRoomList(locationId)
       .then((res) => {
-        console.log("resRoomList", res);
+        // console.log("resRoomList", res);
         dispatch({
           type: GET_ROOM_LIST,
           payload: res.data,
@@ -45,8 +45,6 @@ export const getRoomDetailAction = (id) => {
     httpServ
       .getRoomDetail(id)
       .then((res) => {
-        // console.log("ressDetail", res);
-        // console.log("locationId", res.data.locationId);
         dispatch({
           type: GET_ROOM_DETAIL,
           payload: res.data,
@@ -68,7 +66,6 @@ export const updateRoomDetailAction = (data, id) => {
         setTimeout(() => {
           history.push("/admin/room");
         }, 1000);
-        // console.log("resUpR", res);
       })
       .catch((err) => {
         console.log("err", err);
@@ -105,10 +102,10 @@ export const updateImgRoomAction = (roomImg, id) => {
     httpServ
       .updateImgRoom(roomImg, id)
       .then((res) => {
+        message.success("Cập nhật ảnh thành công!");
         httpServ
           .getRoomList()
           .then((res) => {
-            message.success("Cập nhật ảnh thành công!");
             dispatch({
               type: GET_ROOM_LIST,
               payload: res.data,

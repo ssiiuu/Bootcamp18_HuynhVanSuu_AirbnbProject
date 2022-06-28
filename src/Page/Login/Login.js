@@ -3,11 +3,9 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { loginUserAction } from "../../redux/action/userAction";
-import { useHistory } from "react-router-dom";
 
 export default function Login() {
   const dispatch = useDispatch();
-  const history = useHistory();
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -24,12 +22,7 @@ export default function Login() {
     }),
 
     onSubmit: (values) => {
-      console.log("valuesSubmit", values);
-
       dispatch(loginUserAction(values));
-      // setTimeout(() => {
-      //   history.push("/");
-      // }, 1000);
     },
   });
 

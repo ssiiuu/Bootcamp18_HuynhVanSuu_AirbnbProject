@@ -15,7 +15,6 @@ export const loginUserAction = (data) => {
     httpServ
       .loginUser(data)
       .then((res) => {
-        console.log(res);
         message.success("Đăng nhập thành công!");
         dispatch({
           type: LOGIN,
@@ -38,7 +37,6 @@ export const getUserListAction = (user = "") => {
     httpServ
       .getUserList(user)
       .then((res) => {
-        // console.log("resSearch", res);
         dispatch({
           type: GET_USER_LIST,
           payload: res.data,
@@ -116,9 +114,8 @@ export const updateUserInforAction = (value, id) => {
     httpServ
       .updateUserInfor(value, id)
       .then((res) => {
-        console.log("resUpdate", res);
         message.success("Cập nhật thành công");
-        setInterval(() => {
+        setTimeout(() => {
           history.push("/admin/user");
         }, 1000);
       })

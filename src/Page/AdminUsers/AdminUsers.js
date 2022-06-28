@@ -58,7 +58,7 @@ export default function AdminUsers() {
         onSearch={onSearch}
       />
 
-      <Table dataSource={userList.reverse()} onChange={onChange} rowKey={"_id"}>
+      <Table dataSource={userList} onChange={onChange} rowKey={"_id"}>
         <Column title="User Name" dataIndex="name" key="name" />
         <Column title="Address" dataIndex="address" key="address" />
         <Column title="Email" dataIndex="email" key="email" />

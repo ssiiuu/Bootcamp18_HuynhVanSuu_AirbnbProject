@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import moment from "moment";
-import { Button, Input, Tag } from "antd";
+import { Button, Input } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,12 +27,12 @@ export default function AdminLocation() {
   let { locationList } = useSelector((state) => state.locationReducer);
   const onSearch = (value) => {
     console.log(value);
-    //call api layDanhSachNguoiDung
-    // dispatch(getUserListAction(value));
+    //call api getLocationList
+    dispatch(getLocationListAction(value));
   };
 
   const onChange = (pagination, filters, sorter, extra) => {
-    console.log("params", pagination, filters, sorter, extra);
+    // console.log("params", pagination, filters, sorter, extra);
   };
 
   const handleChangeFile = (e) => {
@@ -56,18 +55,14 @@ export default function AdminLocation() {
 
       <Search
         className="mb-5"
-        placeholder="Tìm vị trí ..."
+        placeholder="Nhập tên vị trí cần tìm ..."
         allowClear
         enterButton="Search"
         size="large"
         onSearch={onSearch}
       />
 
-      <Table
-        dataSource={locationList.reverse()}
-        onChange={onChange}
-        rowKey={"_id"}
-      >
+      <Table dataSource={locationList} onChange={onChange} rowKey={"_id"}>
         <Column title="Location-Id" dataIndex="_id" key="id" />
         <Column title="Name" dataIndex="name" key="name" />
         <Column title="Province" dataIndex="province" key="province" />

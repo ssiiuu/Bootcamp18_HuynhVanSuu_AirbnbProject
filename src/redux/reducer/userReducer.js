@@ -19,8 +19,6 @@ export const userReducer = (state = initialState, { type, payload }) => {
       state.userLogin = payload?.user;
       localStorageServ.userLogin.set(payload?.user);
       localStorageServ.tokenAdmin.set(payload?.token);
-      // localStorage.setItem(USER_LOGIN, JSON.stringify(payload?.user));
-      // localStorage.setItem(TOKEN_ADMIN, payload?.token);
       return { ...state };
     }
     case GET_USER_LIST: {
@@ -30,7 +28,6 @@ export const userReducer = (state = initialState, { type, payload }) => {
     case SET_USER_ADMIN_LIST: {
       let cloneArr = [...state.userList];
       cloneArr.push(payload);
-      // cloneArr = [payload, ...cloneArr];
       state.userList = cloneArr;
       return { ...state };
     }

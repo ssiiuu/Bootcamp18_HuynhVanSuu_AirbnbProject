@@ -50,7 +50,6 @@ export default function AdminEditRoom() {
       locationId: roomDetail.locationId,
     },
     onSubmit: (values) => {
-      console.log("valuesRoom", values);
       dispatch(updateRoomDetailAction(values, values.id));
     },
     validationSchema: Yup.object({

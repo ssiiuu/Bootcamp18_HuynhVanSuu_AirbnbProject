@@ -1,12 +1,12 @@
 import Axios from "axios";
-// import { store } from "../index";
+import { store } from "../index";
 import { DOMAIN, TOKEN_BY_CLASS } from "../configURL/constant";
-// import {
-//   set_spinner_end,
-//   set_spinner_start,
-// } from "../redux/action/spinnerAction";
+
 import localStorageServ from "./locaStorage.service";
-import { message } from "antd";
+import {
+  endLoadingAction,
+  startLoadingAction,
+} from "../redux/action/loadingAction";
 
 const TOKEN_ADMIN = "TOKEN_ADMIN";
 
@@ -78,11 +78,11 @@ class AxiosService {
   }
 
   handleFlow(method, loading = true) {
-    // store.dispatch(set_spinner_start());
+    store.dispatch(startLoadingAction());
     return new Promise((resolve, reject) => {
       method
         .then((res) => {
-          // store.dispatch(set_spinner_end());
+          store.dispatch(endLoadingAction());
           resolve({
             data: res.data,
             status: res.status,
@@ -90,8 +90,7 @@ class AxiosService {
           });
         })
         .catch((err) => {
-          // store.dispatch(set_spinner_end());
-
+          store.dispatch(endLoadingAction());
           this.handleError(err);
           reject({
             err: err,

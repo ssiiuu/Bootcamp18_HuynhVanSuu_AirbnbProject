@@ -33,8 +33,8 @@ export default function AdminRooms() {
   let { roomList } = useSelector((state) => state.roomReducer);
   const onSearch = (value) => {
     console.log(value);
-    //call api layDanhSachNguoiDung
-    // dispatch(getUserListAction(value));
+    //call api getRoomList
+    dispatch(getRoomListAction(value));
   };
 
   const onChange = (pagination, filters, sorter, extra) => {
@@ -61,14 +61,14 @@ export default function AdminRooms() {
 
       <Search
         className="mb-5"
-        placeholder="Tìm phòng ..."
+        placeholder="Nhập locationId để tìm danh sách phòng theo từng vị trí ..."
         allowClear
         enterButton="Search"
         size="large"
         onSearch={onSearch}
       />
 
-      <Table dataSource={roomList.reverse()} onChange={onChange} rowKey={"_id"}>
+      <Table dataSource={roomList} onChange={onChange} rowKey={"_id"}>
         <Column title="Name" dataIndex="name" key="name" width={300} />
         <Column
           title="Image"
@@ -86,15 +86,6 @@ export default function AdminRooms() {
                     e.target.src = `https://picsum.photos/50/50`;
                   }}
                 />
-
-                {/* <input type="file" onChange={handleChangeFile} />
-                <Button
-                  onClick={() => {
-                    dispatch(updateImgRoomAction(selectedFile));
-                  }}
-                >
-                  Upload
-                </Button> */}
               </div>
             );
           }}
@@ -153,9 +144,6 @@ export default function AdminRooms() {
           render={(id, index) => {
             return (
               <>
-                <button className="text-green-600 text-2xl mr-2 cursor-pointer">
-                  <FileSearchOutlined />
-                </button>
                 <button
                   onClick={() => {
                     dispatch(getRoomDetailAction(id));

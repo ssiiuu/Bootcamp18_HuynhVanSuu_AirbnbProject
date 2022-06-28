@@ -1,28 +1,15 @@
 import React from "react";
-import {
-  Button,
-  Input,
-  Form,
-  Select,
-  DatePicker,
-  message,
-  Checkbox,
-  InputNumber,
-} from "antd";
+import { Button, Input, Form, Select, InputNumber } from "antd";
 import * as Yup from "yup";
-import { setUserAdminAction } from "../../../redux/action/userAction";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
-import moment from "moment";
 import { useHistory } from "react-router-dom";
 import { addLocationAction } from "../../../redux/action/locationAction";
 
 export default function AdminAddLocation() {
-  const history = useHistory();
   const dispatch = useDispatch();
 
   //Form
-  const { Option } = Select;
   const [form] = Form.useForm();
 
   const onFinish = (values) => {

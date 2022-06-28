@@ -43,7 +43,11 @@ class HttpRequestService {
 
   // location services
 
-  getLocationList = () => {
+  getLocationList = (location = "") => {
+    if (location.trim() !== "") {
+      const uri = `/api/locations?location=${location}`;
+      return AxiosServ.getMethod(uri);
+    }
     const uri = `/api/locations`;
     return AxiosServ.getMethod(uri);
   };
@@ -69,7 +73,11 @@ class HttpRequestService {
   };
 
   //rooms services
-  getRoomList = () => {
+  getRoomList = (locationId = "") => {
+    if (locationId.trim() !== "") {
+      const uri = `/api/rooms?locationId=${locationId}`;
+      return AxiosServ.getMethod(uri);
+    }
     const uri = `/api/rooms`;
     return AxiosServ.getMethod(uri);
   };

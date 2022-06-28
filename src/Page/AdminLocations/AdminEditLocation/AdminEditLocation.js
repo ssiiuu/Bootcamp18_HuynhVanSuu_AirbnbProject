@@ -3,15 +3,9 @@ import { Button, Input, Form, Select, InputNumber } from "antd";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
-import moment from "moment";
-import { useHistory } from "react-router-dom";
-import {
-  addLocationAction,
-  updateLocationAction,
-} from "../../../redux/action/locationAction";
+import { updateLocationAction } from "../../../redux/action/locationAction";
 
 export default function AdminEditLocation() {
-  const history = useHistory();
   const dispatch = useDispatch();
   let { locationDetail } = useSelector((state) => state.locationReducer);
   //Form
@@ -37,7 +31,6 @@ export default function AdminEditLocation() {
       valueate: locationDetail.valueate,
     },
     onSubmit: (values) => {
-      console.log("valuesSubmit", values);
       dispatch(updateLocationAction(values, values.id));
     },
     validationSchema: Yup.object({

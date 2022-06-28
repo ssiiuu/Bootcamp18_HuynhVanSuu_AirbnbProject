@@ -8,10 +8,10 @@ import {
   UPDATE_LOCATION_DETAIL,
 } from "../type/locationType";
 
-export const getLocationListAction = () => {
+export const getLocationListAction = (location = "") => {
   return (dispatch) => {
     httpServ
-      .getLocationList()
+      .getLocationList(location)
       .then((res) => {
         dispatch({
           type: GET_LOCATION_LIST,
@@ -106,10 +106,10 @@ export const updateImgLocationAction = (locationImg, id) => {
     httpServ
       .updateImgLocation(locationImg, id)
       .then((res) => {
+        message.success("Cập nhật ảnh thành công!");
         httpServ
           .getLocationList()
           .then((res) => {
-            message.success("Cập nhật ảnh thành công!");
             dispatch({
               type: GET_LOCATION_LIST,
               payload: res.data,
