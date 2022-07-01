@@ -31,8 +31,7 @@ export default function AdminAddUsers() {
       gender: "",
       password: "",
       birthday: "",
-      avatar: {},
-      type: "ADMIN",
+      // type: "ADMIN",
     },
     onSubmit: (values) => {
       console.log("valuesSubmit", values);

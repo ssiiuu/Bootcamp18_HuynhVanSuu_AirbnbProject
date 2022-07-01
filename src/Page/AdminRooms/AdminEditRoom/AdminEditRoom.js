@@ -3,16 +3,14 @@ import { Button, Input, Form, Select, InputNumber, Switch } from "antd";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
-import { useHistory } from "react-router-dom";
 import TextArea from "antd/lib/input/TextArea";
-import {
-  addRoomAction,
-  updateRoomDetailAction,
-} from "../../../redux/action/roomAction";
+import { updateRoomDetailAction } from "../../../redux/action/roomAction";
+import { useParams } from "react-router-dom";
 
 export default function AdminEditRoom() {
-  const history = useHistory();
   const dispatch = useDispatch();
+  const { locationId } = useParams();
+
   const { roomDetail } = useSelector((state) => state.roomReducer);
   //Form
   const { Option } = Select;
@@ -47,10 +45,10 @@ export default function AdminEditRoom() {
       wifi: roomDetail.wifi,
       heating: roomDetail.heating,
       cableTV: roomDetail.cableTV,
-      locationId: roomDetail.locationId,
+      locationId: locationId,
     },
     onSubmit: (values) => {
-      dispatch(updateRoomDetailAction(values, values.id));
+      dispatch(updateRoomDetailAction(values, values.id, locationId));
     },
     validationSchema: Yup.object({
       name: Yup.string()
@@ -96,7 +94,7 @@ export default function AdminEditRoom() {
             <p className="text-red-600">{formik.errors.name}</p>
           )}
         </Form.Item>
-        <Form.Item label="Location-Id">
+        {/* <Form.Item label="Location-Id">
           <Input
             //  disabled
             name="locationId"
@@ -105,7 +103,7 @@ export default function AdminEditRoom() {
           {formik.errors.locationId && formik.touched.locationId && (
             <p className="text-red-600">{formik.errors.locationId}</p>
           )}
-        </Form.Item>
+        </Form.Item> */}
         <Form.Item label="Guests">
           <InputNumber
             value={formik.values.guests}

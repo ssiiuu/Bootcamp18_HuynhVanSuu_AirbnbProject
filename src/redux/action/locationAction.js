@@ -5,7 +5,6 @@ import {
   ADD_LOCATION,
   GET_LOCATION_DETAIL,
   GET_LOCATION_LIST,
-  UPDATE_LOCATION_DETAIL,
 } from "../type/locationType";
 
 export const getLocationListAction = (location = "") => {

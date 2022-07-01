@@ -8,7 +8,6 @@ export const getRoomListAction = (locationId = "") => {
     httpServ
       .getRoomList(locationId)
       .then((res) => {
-        // console.log("resRoomList", res);
         dispatch({
           type: GET_ROOM_LIST,
           payload: res.data,
@@ -20,7 +19,7 @@ export const getRoomListAction = (locationId = "") => {
   };
 };
 
-export const addRoomAction = (data) => {
+export const addRoomAction = (data, locationId) => {
   return (dispatch) => {
     httpServ
       .addRoom(data)
@@ -30,9 +29,7 @@ export const addRoomAction = (data) => {
           type: ADD_ROOM,
           payload: res.data,
         });
-        setTimeout(() => {
-          history.push("/admin/room");
-        }, 1000);
+        history.push(`/admin/rooms/${locationId}`);
       })
       .catch((err) => {
         console.log("err", err);
@@ -40,7 +37,7 @@ export const addRoomAction = (data) => {
   };
 };
 
-export const getRoomDetailAction = (id) => {
+export const getRoomDetailAction = (id, locationId) => {
   return (dispatch) => {
     httpServ
       .getRoomDetail(id)
@@ -49,7 +46,7 @@ export const getRoomDetailAction = (id) => {
           type: GET_ROOM_DETAIL,
           payload: res.data,
         });
-        history.push("/admin/room/edit");
+        history.push(`/admin/rooms/edit/${locationId}`);
       })
       .catch((err) => {
         console.log("err", err);
@@ -57,15 +54,13 @@ export const getRoomDetailAction = (id) => {
   };
 };
 
-export const updateRoomDetailAction = (data, id) => {
+export const updateRoomDetailAction = (data, id, locationId) => {
   return (dispatch) => {
     httpServ
       .updateRoomDetail(data, id)
       .then((res) => {
         message.success("Cập nhật thành công!");
-        setTimeout(() => {
-          history.push("/admin/room");
-        }, 1000);
+        history.push(`/admin/rooms/${locationId}`);
       })
       .catch((err) => {
         console.log("err", err);
@@ -73,19 +68,20 @@ export const updateRoomDetailAction = (data, id) => {
   };
 };
 
-export const deleteRoomAction = (id) => {
+export const deleteRoomAction = (id, locationId) => {
   return (dispatch) => {
     httpServ
       .deleteRoom(id)
       .then((res) => {
         httpServ
-          .getRoomList()
+          .getRoomList(locationId)
           .then((res) => {
             message.success("Xóa thành công!");
             dispatch({
               type: GET_ROOM_LIST,
               payload: res.data,
             });
+            history.push(`/admin/rooms/${locationId}`);
           })
           .catch((err) => {
             console.log("err", err);

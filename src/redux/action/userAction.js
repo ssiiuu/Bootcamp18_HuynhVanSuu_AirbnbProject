@@ -1,9 +1,7 @@
-import axios from "axios";
 import httpServ from "../../Service/http.service";
 import {
   GET_USER_LIST,
   LOGIN,
-  LOGIN_USER,
   SET_USER_ADMIN_LIST,
   SET_USER_DETAILS_INFOR,
 } from "../type/userType";

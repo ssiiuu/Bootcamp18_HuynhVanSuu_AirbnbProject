@@ -1,16 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
-import moment from "moment";
 import { Button, Input } from "antd";
-import {
-  EditOutlined,
-  DeleteOutlined,
-  FileSearchOutlined,
-  UploadOutlined,
-} from "@ant-design/icons";
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import Column from "antd/lib/table/Column";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import {
   deleteRoomAction,
   getRoomDetailAction,
@@ -23,19 +17,22 @@ const { Search } = Input;
 export default function AdminRooms() {
   const history = useHistory();
   const dispatch = useDispatch();
+  const { locationId } = useParams();
+
   const fileInput = useRef();
 
   const [selectedFile, setSelectedFile] = useState(null);
+
+  const [page, setPage] = useState(1);
+
   useEffect(() => {
-    dispatch(getRoomListAction());
+    dispatch(getRoomListAction(locationId));
   }, []);
 
   let { roomList } = useSelector((state) => state.roomReducer);
-  const onSearch = (value) => {
-    console.log(value);
-    //call api getRoomList
-    dispatch(getRoomListAction(value));
-  };
+  let roomListData = roomList.filter((room) => {
+    return room.locationId;
+  });
 
   const onChange = (pagination, filters, sorter, extra) => {
     // console.log("params", pagination, filters, sorter, extra);
@@ -51,7 +48,7 @@ export default function AdminRooms() {
       <h1 className="text-5xl text-blue-600">Quản lý thông tin phòng</h1>
       <Button
         onClick={() => {
-          history.push("/admin/room/addnew");
+          history.push(`/admin/rooms/addnew/${locationId}`);
         }}
         size="large"
         className="my-5 bg-blue-600 text-white rounded-sm "
@@ -59,17 +56,32 @@ export default function AdminRooms() {
         Thêm phòng mới
       </Button>
 
-      <Search
-        className="mb-5"
-        placeholder="Nhập locationId để tìm danh sách phòng theo từng vị trí ..."
-        allowClear
-        enterButton="Search"
-        size="large"
-        onSearch={onSearch}
-      />
-
-      <Table dataSource={roomList} onChange={onChange} rowKey={"_id"}>
+      <Table
+        dataSource={roomListData}
+        onChange={onChange}
+        rowKey={"_id"}
+        pagination={{
+          onChange(current) {
+            setPage(current);
+          },
+        }}
+      >
+        <Column
+          title="#"
+          key="#"
+          render={(value, item, index) => {
+            return (page - 1) * 10 + index + 1;
+          }}
+        />
         <Column title="Name" dataIndex="name" key="name" width={300} />
+
+        <Column
+          title="Location"
+          dataIndex={["locationId", "province"]}
+          key="location"
+        />
+        <Column title="Guest Max" dataIndex="guests" key="guests" />
+        <Column title="Price (VND)" dataIndex="price" key="price" />
         <Column
           title="Image"
           dataIndex="image"
@@ -113,7 +125,7 @@ export default function AdminRooms() {
                 </Button>
                 {selectedFile ? (
                   <Button
-                    className="text-blue-600"
+                    className="text-white bg-purple-400"
                     onClick={() => {
                       const formdata = new FormData();
                       formdata.append("room", selectedFile, selectedFile?.name);
@@ -131,13 +143,6 @@ export default function AdminRooms() {
           }}
         />
         <Column
-          title="Location"
-          dataIndex={["locationId", "province"]}
-          key="location"
-        />
-        <Column title="Guest Max" dataIndex="guests" key="guests" />
-        <Column title="Price (VND)" dataIndex="price" key="price" />
-        <Column
           title="Action"
           dataIndex="_id"
           key="action"
@@ -146,7 +151,8 @@ export default function AdminRooms() {
               <>
                 <button
                   onClick={() => {
-                    dispatch(getRoomDetailAction(id));
+                    dispatch(getRoomDetailAction(id, locationId));
+                    // dispatch(getRoomListAction(locationId));
                   }}
                   className="text-blue-600 text-2xl mr-2 cursor-pointer"
                 >
@@ -155,7 +161,7 @@ export default function AdminRooms() {
                 <button
                   onClick={() => {
                     window.confirm("Bạn có chắc muốn xóa phòng này không?") &&
-                      dispatch(deleteRoomAction(id));
+                      dispatch(deleteRoomAction(id, locationId));
                   }}
                   className="text-red-600 text-2xl cursor-pointer"
                 >

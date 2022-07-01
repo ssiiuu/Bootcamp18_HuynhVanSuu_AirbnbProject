@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 export default function Loading() {
   let { isLoading } = useSelector((state) => state.loadingReducer);
   return isLoading ? (
-    <div className="fixed bg-gray-900 flex justify-center items-center w-screen h-screen bg-opacity-40 z-10">
+    <div className="fixed bg-white flex justify-center items-center w-screen h-screen  z-10">
       <ReactLoading
         type={"spinningBubbles"}
         color={"blue"}

@@ -87,21 +87,21 @@ export default function App() {
           />
           <Route
             exact
-            path="/admin/room"
+            path="/admin/rooms/:locationId"
             render={() => {
               return <AdminTemplate Component={AdminRooms} />;
             }}
           />
           <Route
             exact
-            path="/admin/room/addnew"
+            path="/admin/rooms/addnew/:locationId"
             render={() => {
               return <AdminTemplate Component={AdminAddRoom} />;
             }}
           />
           <Route
             exact
-            path="/admin/room/edit"
+            path="/admin/rooms/edit/:locationId"
             render={() => {
               return <AdminTemplate Component={AdminEditRoom} />;
             }}

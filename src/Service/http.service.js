@@ -1,4 +1,3 @@
-import axios from "axios";
 import AxiosServ from "./axios.service";
 
 /* eslint-disable no-useless-constructor */

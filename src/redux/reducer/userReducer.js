@@ -1,4 +1,3 @@
-// import { TOKEN_ADMIN, USER_LOGIN } from "../../configURL/constant";
 import localStorageServ from "../../Service/locaStorage.service";
 import {
   GET_USER_LIST,

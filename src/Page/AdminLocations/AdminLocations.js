@@ -1,6 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Button, Input } from "antd";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { Button, Input, Tooltip } from "antd";
+import {
+  EditOutlined,
+  DeleteOutlined,
+  HomeOutlined,
+  AppstoreAddOutlined,
+} from "@ant-design/icons";
 import { Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import Column from "antd/lib/table/Column";
@@ -19,17 +24,12 @@ export default function AdminLocation() {
   const dispatch = useDispatch();
   const [selectedFile, setSelectedFile] = useState(null);
   const fileInput = useRef();
-
+  const [page, setPage] = useState(1);
   useEffect(() => {
     dispatch(getLocationListAction());
   }, []);
 
   let { locationList } = useSelector((state) => state.locationReducer);
-  const onSearch = (value) => {
-    console.log(value);
-    //call api getLocationList
-    dispatch(getLocationListAction(value));
-  };
 
   const onChange = (pagination, filters, sorter, extra) => {
     // console.log("params", pagination, filters, sorter, extra);
@@ -41,31 +41,38 @@ export default function AdminLocation() {
     setSelectedFile(file);
   };
   return (
-    <div className="">
+    <div>
       <h1 className="text-5xl text-blue-600">Quản lý thông tin vị trí</h1>
       <Button
         onClick={() => {
           history.push("location/addnew");
         }}
         size="large"
-        className="my-5 bg-blue-600 text-white rounded-sm "
+        className="mr-5 mb-5 bg-blue-600 text-white rounded-sm "
       >
         Thêm vị trí mới
       </Button>
 
-      <Search
-        className="mb-5"
-        placeholder="Nhập tên vị trí cần tìm ..."
-        allowClear
-        enterButton="Search"
-        size="large"
-        onSearch={onSearch}
-      />
-
-      <Table dataSource={locationList} onChange={onChange} rowKey={"_id"}>
-        <Column title="Location-Id" dataIndex="_id" key="id" />
+      <Table
+        dataSource={locationList}
+        onChange={onChange}
+        rowKey={"_id"}
+        pagination={{
+          onChange(current) {
+            setPage(current);
+          },
+        }}
+      >
+        <Column
+          title="#"
+          key="#"
+          render={(value, item, index) => {
+            return (page - 1) * 10 + index + 1;
+          }}
+        />
         <Column title="Name" dataIndex="name" key="name" />
         <Column title="Province" dataIndex="province" key="province" />
+        <Column title="Country" dataIndex="country" key="country" />
         <Column
           title="Image"
           dataIndex="image"
@@ -82,6 +89,7 @@ export default function AdminLocation() {
             );
           }}
         />
+
         <Column
           title="Update Img"
           dataIndex="_id"
@@ -105,7 +113,7 @@ export default function AdminLocation() {
                 </Button>
                 {selectedFile ? (
                   <Button
-                    className="text-blue-600"
+                    className="text-white bg-purple-400"
                     onClick={() => {
                       const formdata = new FormData();
                       formdata.append(
@@ -126,33 +134,68 @@ export default function AdminLocation() {
             );
           }}
         />
-        <Column title="Country" dataIndex="country" key="country" />
         <Column title="Valueate" dataIndex="valueate" key="valueate" />
 
+        <Column
+          title="Edit"
+          dataIndex="_id"
+          key="edit"
+          render={(id) => {
+            return (
+              <>
+                <Tooltip title="Add new room">
+                  <button
+                    onClick={() => {
+                      history.push(`/admin/rooms/addnew/${id}`);
+                    }}
+                    className="text-yellow-600 text-2xl mr-2 cursor-pointer"
+                  >
+                    <AppstoreAddOutlined />
+                  </button>
+                </Tooltip>
+                <Tooltip title="See all rooms">
+                  <button
+                    onClick={() => {
+                      history.push(`/admin/rooms/${id}`);
+                    }}
+                    className="text-green-600 text-2xl mr-2 cursor-pointer"
+                  >
+                    <HomeOutlined />
+                  </button>
+                </Tooltip>
+              </>
+            );
+          }}
+        />
         <Column
           title="Action"
           dataIndex="_id"
           key="action"
-          render={(id, index) => {
+          render={(id) => {
             return (
               <>
-                <button
-                  onClick={() => {
-                    dispatch(getLocationDetailAction(id));
-                  }}
-                  className="text-blue-600 text-2xl mr-2 cursor-pointer"
-                >
-                  <EditOutlined />
-                </button>
-                <button
-                  onClick={() => {
-                    window.confirm("Bạn có chắc muốn xóa vị trí này không?") &&
-                      dispatch(deleteLocationAction(id));
-                  }}
-                  className="text-red-600 text-2xl cursor-pointer"
-                >
-                  <DeleteOutlined />
-                </button>
+                <Tooltip title="Edit">
+                  <button
+                    onClick={() => {
+                      dispatch(getLocationDetailAction(id));
+                    }}
+                    className="text-blue-600 text-2xl mr-2  cursor-pointer"
+                  >
+                    <EditOutlined />
+                  </button>
+                </Tooltip>
+                <Tooltip title="Delete">
+                  <button
+                    onClick={() => {
+                      window.confirm(
+                        "Bạn có chắc muốn xóa vị trí này không?"
+                      ) && dispatch(deleteLocationAction(id));
+                    }}
+                    className="text-red-600 text-2xl cursor-pointer"
+                  >
+                    <DeleteOutlined />
+                  </button>
+                </Tooltip>
               </>
             );
           }}

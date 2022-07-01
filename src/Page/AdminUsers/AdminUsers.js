@@ -1,11 +1,6 @@
-import React, { useEffect, useState } from "react";
-import moment from "moment";
-import { Button, Input, Tag } from "antd";
-import {
-  EditOutlined,
-  DeleteOutlined,
-  UploadOutlined,
-} from "@ant-design/icons";
+import React, { useEffect } from "react";
+import { Button, Input, Tag, Tooltip } from "antd";
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -22,16 +17,13 @@ export default function AdminUsers() {
   const history = useHistory();
   const dispatch = useDispatch();
 
+  const [page, setPage] = React.useState(1);
+
   useEffect(() => {
     dispatch(getUserListAction());
   }, []);
 
   let { userList } = useSelector((state) => state.userReducer);
-
-  const onSearch = (value) => {
-    //call api layDanhSachNguoiDung
-    dispatch(getUserListAction(value));
-  };
 
   const onChange = (pagination, filters, sorter, extra) => {
     // console.log("params", pagination, filters, sorter, extra);
@@ -49,17 +41,22 @@ export default function AdminUsers() {
         Thêm Quản trị viên
       </Button>
 
-      <Search
-        className="mb-5"
-        placeholder="Tìm thành viên ..."
-        allowClear
-        enterButton="Search"
-        size="large"
-        onSearch={onSearch}
-      />
-
-      <Table dataSource={userList} onChange={onChange} rowKey={"_id"}>
-        <Column title="User Name" dataIndex="name" key="name" />
+      <Table
+        dataSource={userList}
+        onChange={onChange}
+        rowKey={"_id"}
+        pagination={{
+          onChange(current) {
+            setPage(current);
+          },
+        }}
+      >
+        <Column
+          title="#"
+          key="#"
+          render={(value, item, index) => (page - 1) * 10 + index + 1}
+        />
+        <Column title="Name" dataIndex="name" key="name" />
         <Column title="Address" dataIndex="address" key="address" />
         <Column title="Email" dataIndex="email" key="email" />
         <Column title="Phone" dataIndex="phone" key="phone" />
@@ -82,28 +79,32 @@ export default function AdminUsers() {
           render={(id, index) => {
             return (
               <>
-                <button
-                  onClick={() => {
-                    dispatch(getUserInforAction(id));
-                  }}
-                  className="text-blue-600 text-2xl mr-2 cursor-pointer"
-                >
-                  <EditOutlined />
-                </button>
-                <button
-                  onClick={() => {
-                    if (
-                      window.confirm(
-                        "Bạn có chắc muốn xóa người dùng này không?"
-                      )
-                    ) {
-                      dispatch(deleteUserAction(id));
-                    }
-                  }}
-                  className="text-red-600 text-2xl cursor-pointer"
-                >
-                  <DeleteOutlined />
-                </button>
+                <Tooltip title="Edit">
+                  <button
+                    onClick={() => {
+                      dispatch(getUserInforAction(id));
+                    }}
+                    className="text-blue-600 text-2xl mr-2 cursor-pointer"
+                  >
+                    <EditOutlined />
+                  </button>
+                </Tooltip>
+                <Tooltip title="Delete">
+                  <button
+                    onClick={() => {
+                      if (
+                        window.confirm(
+                          "Bạn có chắc muốn xóa người dùng này không?"
+                        )
+                      ) {
+                        dispatch(deleteUserAction(id));
+                      }
+                    }}
+                    className="text-red-600 text-2xl cursor-pointer"
+                  >
+                    <DeleteOutlined />
+                  </button>
+                </Tooltip>
               </>
             );
           }}

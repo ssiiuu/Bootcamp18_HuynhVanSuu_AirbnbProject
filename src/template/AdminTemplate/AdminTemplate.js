@@ -81,15 +81,6 @@ export default function AdminTemplate({ Component }) {
                 <NavLink to={"/admin/location/addnew"}>Thêm vị trí mới</NavLink>
               </Menu.Item>
             </SubMenu>
-
-            <SubMenu key="3" icon={<HomeOutlined />} title="Quản lý phòng">
-              <Menu.Item key={"31"} icon={<HomeOutlined />}>
-                <NavLink to={"/admin/room"}>Quản lý thông tin phòng</NavLink>
-              </Menu.Item>
-              <Menu.Item key={"32"} icon={<AppstoreAddOutlined />}>
-                <NavLink to={"/admin/room/addnew"}>Thêm phòng mới</NavLink>
-              </Menu.Item>
-            </SubMenu>
           </Menu>
         </Sider>
         <Layout className="site-layout">

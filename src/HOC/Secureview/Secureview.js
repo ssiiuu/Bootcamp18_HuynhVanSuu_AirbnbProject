@@ -1,4 +1,3 @@
-import React from "react";
 import localStorageServ from "../../Service/locaStorage.service";
 
 export default function Secureview({ Component }) {
