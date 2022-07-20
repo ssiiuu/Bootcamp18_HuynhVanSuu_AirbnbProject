@@ -3,15 +3,15 @@ import { Layout, Menu, Breadcrumb } from "antd";
 import {
   UserOutlined,
   EnvironmentOutlined,
-  HomeOutlined,
   UserAddOutlined,
   FileAddOutlined,
-  AppstoreAddOutlined,
+  AppstoreOutlined,
 } from "@ant-design/icons";
 
 import { NavLink } from "react-router-dom";
 import SubMenu from "antd/lib/menu/SubMenu";
 import UserNav from "../../components/UserNav/UserNav";
+import "./AdminTemplate.css";
 
 export default function AdminTemplate({ Component }) {
   let [collapsed, setCollapsed] = useState(false);
@@ -23,11 +23,6 @@ export default function AdminTemplate({ Component }) {
     setCollapsed(collapsed);
   };
 
-  const operation = (
-    <div className="flex justify-end items-center">
-      <UserNav />
-    </div>
-  );
   return (
     <div>
       <Layout
@@ -35,8 +30,15 @@ export default function AdminTemplate({ Component }) {
           minHeight: "100vh",
         }}
       >
-        <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
-          <div className="logo py-10">
+        <Sider
+          theme="light"
+          collapsible
+          width={230}
+          collapsed={collapsed}
+          onCollapse={onCollapse}
+          style={{ borderRight: "1px solid gainsboro" }}
+        >
+          <div className="logo py-3">
             <NavLink to="/">
               <svg
                 width={102}
@@ -59,10 +61,13 @@ export default function AdminTemplate({ Component }) {
               </svg>
             </NavLink>
           </div>
-          <Menu theme="dark" mode="inline">
+          <Menu theme="light" mode="inline">
+            <Menu.Item key={"0"} icon={<AppstoreOutlined />}>
+              <NavLink to={"/admin/dashboard"}>DashBoard</NavLink>
+            </Menu.Item>
             <SubMenu key="1" icon={<UserOutlined />} title="Quản lý người dùng">
               <Menu.Item key={"11"} icon={<UserOutlined />}>
-                <NavLink to={"/admin/user"}>Quản lý người dùng</NavLink>
+                <NavLink to={"/admin/user"}>Danh sách người dùng</NavLink>
               </Menu.Item>
               <Menu.Item key={"12"} icon={<UserAddOutlined />}>
                 <NavLink to={"/admin/user/addnew"}>Thêm Quản Trị mới</NavLink>
@@ -72,10 +77,10 @@ export default function AdminTemplate({ Component }) {
             <SubMenu
               key="2"
               icon={<EnvironmentOutlined />}
-              title="Quản lý vị trí"
+              title="Quản lý thông tin vị trí"
             >
               <Menu.Item key={"21"} icon={<EnvironmentOutlined />}>
-                <NavLink to={"/admin/location"}>Quản lý vị trí</NavLink>
+                <NavLink to={"/admin/location"}>Danh sách vị trí</NavLink>
               </Menu.Item>
               <Menu.Item key={"22"} icon={<FileAddOutlined />}>
                 <NavLink to={"/admin/location/addnew"}>Thêm vị trí mới</NavLink>
@@ -85,28 +90,22 @@ export default function AdminTemplate({ Component }) {
         </Sider>
         <Layout className="site-layout">
           <Header
-            className="site-layout-background"
+            className="box-shadow-header flex justify-end items-center px-10"
             style={{
               background: "white",
-              padding: 0,
+              paddingLeft: 20,
+              paddingRight: 20,
             }}
           >
-            {operation}
+            <div>
+              <UserNav />
+            </div>
           </Header>
-          <Content
-            style={{
-              margin: "0 16px",
-            }}
-          >
-            <Breadcrumb
-              style={{
-                margin: "16px 0",
-              }}
-            ></Breadcrumb>
+          <Content>
             <div
               className="site-layout-background"
               style={{
-                padding: 24,
+                paddingTop: 20,
                 minHeight: 360,
               }}
             >

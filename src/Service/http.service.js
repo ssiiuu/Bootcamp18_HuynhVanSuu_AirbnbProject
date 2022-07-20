@@ -30,6 +30,11 @@ class HttpRequestService {
     return AxiosServ.getMethod(uri, id);
   };
 
+  getListTicketsByUser = (userId) => {
+    const uri = `/api/tickets/by-user?userId=${userId}`;
+    return AxiosServ.getMethod(uri, userId);
+  };
+
   updateUserInfor = (data, id) => {
     const uri = `/api/users/${id}`;
     return AxiosServ.putMethod(uri, data);
@@ -38,6 +43,10 @@ class HttpRequestService {
   deleteUser = (id) => {
     const uri = `/api/users/${id}`;
     return AxiosServ.deleteMothod(uri, id);
+  };
+  updateImgUser = (userImg, id) => {
+    const uri = `/api/users/upload-avatar/${id}`;
+    return AxiosServ.postMethod(uri, userImg);
   };
 
   // location services

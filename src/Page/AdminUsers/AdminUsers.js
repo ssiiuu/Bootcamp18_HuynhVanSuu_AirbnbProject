@@ -1,10 +1,15 @@
 import React, { useEffect } from "react";
 import { Button, Input, Tag, Tooltip } from "antd";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import {
+  EditOutlined,
+  DeleteOutlined,
+  FileSearchOutlined,
+} from "@ant-design/icons";
 import { Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import {
   deleteUserAction,
+  getListTicketsByUserAction,
   getUserInforAction,
   getUserListAction,
 } from "../../redux/action/userAction";
@@ -30,13 +35,12 @@ export default function AdminUsers() {
   };
   return (
     <div className="">
-      <h1 className="text-5xl text-blue-600">Quản lý người dùng</h1>
       <Button
         onClick={() => {
           history.push("/admin/user/addnew");
         }}
         size="large"
-        className="my-5 bg-blue-600 text-white rounded-sm "
+        className="mb-5 ml-5 text-red-500 bg-white border-red-500 hover:bg-red-500 hover:text-white rounded "
       >
         Thêm Quản trị viên
       </Button>
@@ -52,44 +56,102 @@ export default function AdminUsers() {
         }}
       >
         <Column
-          title="#"
-          key="#"
+          title="STT"
+          key="stt"
           render={(value, item, index) => (page - 1) * 10 + index + 1}
+          align="center"
+          className="font-semibold"
         />
-        <Column title="Name" dataIndex="name" key="name" />
-        <Column title="Address" dataIndex="address" key="address" />
-        <Column title="Email" dataIndex="email" key="email" />
-        <Column title="Phone" dataIndex="phone" key="phone" />
         <Column
-          title="Type"
+          title="Họ và tên"
+          dataIndex="name"
+          key="name"
+          align="center"
+          className="font-semibold"
+        />
+        <Column
+          title="Email"
+          dataIndex="email"
+          key="email"
+          align="center"
+          className="font-semibold"
+        />
+        <Column
+          title="Avatar"
+          dataIndex="avatar"
+          key="avatar"
+          render={(img) => {
+            return img ? (
+              <img
+                style={{
+                  width: 35,
+                  height: 35,
+                  borderRadius: "100%",
+                  objectFit: "cover",
+                }}
+                src={img}
+                alt="..."
+              />
+            ) : (
+              <img
+                style={{
+                  width: 35,
+                  height: 35,
+                  borderRadius: "100%",
+                  objectFit: "cover",
+                }}
+                src="https://www.sandcanyoncc.com/wp-content/uploads/elementor/thumbs/no-profile-picture-icon-15-omqilctwnnaw5c9dnu5i4bvw9ui5vymmtjrwsaz3q0.png"
+                alt="..."
+              />
+            );
+          }}
+        />
+        <Column
+          title="Loại tài khoản"
           dataIndex="type"
           key="type"
+          align="center"
+          className="font-semibold"
           render={(type) => {
             return type === "ADMIN" ? (
-              <Tag color={"red"}>Admin</Tag>
+              <Tag color={"geekblue"}>Admin</Tag>
             ) : (
               <Tag color={"green"}>User</Tag>
             );
           }}
         />
         <Column
-          title="Action"
+          title="Thao tác"
           dataIndex="_id"
           key="action"
+          align="center"
+          className="font-semibold"
           render={(id, index) => {
             return (
               <>
-                <Tooltip title="Edit">
+                <Tooltip title="Xem chi tiết">
                   <button
                     onClick={() => {
                       dispatch(getUserInforAction(id));
+                      dispatch(getListTicketsByUserAction(id));
                     }}
-                    className="text-blue-600 text-2xl mr-2 cursor-pointer"
+                    className="text-green-600 text-2xl mr-4 cursor-pointer"
+                  >
+                    <FileSearchOutlined />
+                  </button>
+                </Tooltip>
+                <Tooltip title="Sửa">
+                  <button
+                    onClick={() => {
+                      dispatch(getUserInforAction(id));
+                      history.push("/admin/user/edit");
+                    }}
+                    className="text-blue-600 text-2xl mr-4 cursor-pointer"
                   >
                     <EditOutlined />
                   </button>
                 </Tooltip>
-                <Tooltip title="Delete">
+                <Tooltip title="Xóa">
                   <button
                     onClick={() => {
                       if (

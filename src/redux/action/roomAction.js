@@ -46,7 +46,6 @@ export const getRoomDetailAction = (id, locationId) => {
           type: GET_ROOM_DETAIL,
           payload: res.data,
         });
-        history.push(`/admin/rooms/edit/${locationId}`);
       })
       .catch((err) => {
         console.log("err", err);

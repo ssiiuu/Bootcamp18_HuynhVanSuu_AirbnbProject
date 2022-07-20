@@ -52,7 +52,6 @@ export const getLocationDetailAction = (id) => {
           type: GET_LOCATION_DETAIL,
           payload: res.data,
         });
-        history.push("/admin/location/edit");
       })
       .catch((err) => {
         console.log("err", err);

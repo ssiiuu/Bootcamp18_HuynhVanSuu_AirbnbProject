@@ -4,11 +4,13 @@ import {
   LOGIN,
   SET_USER_ADMIN_LIST,
   SET_USER_DETAILS_INFOR,
+  SET_USER_DETAILS_TICKET_INFOR,
 } from "../type/userType";
 
 let initialState = {
   userList: [],
   userInforDetails: {},
+  userInforDetailsTickets: [],
   userLogin: localStorageServ.userLogin.get(),
 };
 
@@ -32,6 +34,10 @@ export const userReducer = (state = initialState, { type, payload }) => {
     }
     case SET_USER_DETAILS_INFOR: {
       state.userInforDetails = payload;
+      return { ...state };
+    }
+    case SET_USER_DETAILS_TICKET_INFOR: {
+      state.userInforDetailsTickets = payload;
       return { ...state };
     }
     default:

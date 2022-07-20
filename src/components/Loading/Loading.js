@@ -7,9 +7,9 @@ export default function Loading() {
     <div className="fixed bg-white flex justify-center items-center w-screen h-screen  z-10">
       <ReactLoading
         type={"spinningBubbles"}
-        color={"blue"}
-        height={200}
-        width={200}
+        color={"#ff385c"}
+        height={100}
+        width={100}
       />
     </div>
   ) : (

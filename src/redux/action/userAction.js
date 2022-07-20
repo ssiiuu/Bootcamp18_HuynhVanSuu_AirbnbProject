@@ -4,6 +4,7 @@ import {
   LOGIN,
   SET_USER_ADMIN_LIST,
   SET_USER_DETAILS_INFOR,
+  SET_USER_DETAILS_TICKET_INFOR,
 } from "../type/userType";
 import { message } from "antd";
 import { history } from "../../App";
@@ -19,7 +20,7 @@ export const loginUserAction = (data) => {
           payload: res.data,
         });
         setTimeout(() => {
-          history.push("/");
+          history.push("/admin/dashboard");
         }, 1000);
       })
       .catch((err) => {
@@ -35,6 +36,7 @@ export const getUserListAction = (user = "") => {
     httpServ
       .getUserList(user)
       .then((res) => {
+        console.log("userList", res.data);
         dispatch({
           type: GET_USER_LIST,
           payload: res.data,
@@ -99,7 +101,24 @@ export const getUserInforAction = (id) => {
           type: SET_USER_DETAILS_INFOR,
           payload: res.data,
         });
-        history.push("/admin/user/edit");
+      })
+      .catch((err) => {
+        console.log("err", err);
+      });
+  };
+};
+
+export const getListTicketsByUserAction = (id) => {
+  return (dispatch) => {
+    httpServ
+      .getListTicketsByUser(id)
+      .then((res) => {
+        console.log("resTickets", res.data);
+        dispatch({
+          type: SET_USER_DETAILS_TICKET_INFOR,
+          payload: res.data,
+        });
+        history.push("/admin/user/profile");
       })
       .catch((err) => {
         console.log("err", err);
@@ -116,6 +135,19 @@ export const updateUserInforAction = (value, id) => {
         setTimeout(() => {
           history.push("/admin/user");
         }, 1000);
+      })
+      .catch((err) => {
+        console.log("err", err);
+      });
+  };
+};
+
+export const updateImgUserAction = (userImg, id) => {
+  return (dispatch) => {
+    httpServ
+      .updateImgUser(userImg, id)
+      .then((res) => {
+        console.log("res", res);
       })
       .catch((err) => {
         console.log("err", err);

@@ -16,6 +16,10 @@ import AdminTemplate from "./template/AdminTemplate/AdminTemplate";
 import UserTemplate from "./template/UserTemplate/UserTemplate";
 import { createBrowserHistory } from "history";
 import Loading from "./components/Loading/Loading";
+import AdminDashBoard from "./Page/AdminDashBoard/AdminDashBoard";
+import AdminUserProfile from "./Page/AdminUsers/AdminUserProfile/AdminUserProfile";
+import AdminLocationDetail from "./Page/AdminLocations/AdminLocationDetail/AdminLocationDetail";
+import AdminRoomDetail from "./Page/AdminRooms/AdminRoomDetail/AdminRoomDetail";
 
 export const history = createBrowserHistory();
 
@@ -27,12 +31,13 @@ export default function App() {
         <Switch>
           <Route
             exact
-            path="/"
+            path="/admin/dashboard"
             render={() => {
               return (
-                <Secureview
-                  Component={<AdminTemplate Component={AdminUsers} />}
-                />
+                <AdminTemplate Component={AdminDashBoard} />
+                // <Secureview
+                //   Component={<AdminTemplate Component={AdminUsers} />}
+                // />
               );
             }}
           />
@@ -66,9 +71,23 @@ export default function App() {
           />
           <Route
             exact
+            path="/admin/user/profile"
+            render={() => {
+              return <AdminTemplate Component={AdminUserProfile} />;
+            }}
+          />
+          <Route
+            exact
             path="/admin/location"
             render={() => {
               return <AdminTemplate Component={AdminLoaction} />;
+            }}
+          />
+          <Route
+            exact
+            path="/admin/location/detail/:id"
+            render={() => {
+              return <AdminTemplate Component={AdminLocationDetail} />;
             }}
           />
           <Route
@@ -90,6 +109,13 @@ export default function App() {
             path="/admin/rooms/:locationId"
             render={() => {
               return <AdminTemplate Component={AdminRooms} />;
+            }}
+          />
+          <Route
+            exact
+            path="/admin/rooms/detail/:id"
+            render={() => {
+              return <AdminTemplate Component={AdminRoomDetail} />;
             }}
           />
           <Route

@@ -1,6 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Button, Input } from "antd";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { Button, Input, Tooltip } from "antd";
+import {
+  EditOutlined,
+  DeleteOutlined,
+  FileSearchOutlined,
+} from "@ant-design/icons";
 import { Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import Column from "antd/lib/table/Column";
@@ -45,13 +49,12 @@ export default function AdminRooms() {
   };
   return (
     <div className="">
-      <h1 className="text-5xl text-blue-600">Quản lý thông tin phòng</h1>
       <Button
         onClick={() => {
           history.push(`/admin/rooms/addnew/${locationId}`);
         }}
         size="large"
-        className="my-5 bg-blue-600 text-white rounded-sm "
+        className="ml-5 mb-5 text-red-500 bg-white border-red-500 hover:bg-red-500 hover:text-white rounded"
       >
         Thêm phòng mới
       </Button>
@@ -67,24 +70,49 @@ export default function AdminRooms() {
         }}
       >
         <Column
-          title="#"
-          key="#"
+          title="STT"
+          key="stt"
+          align="center"
+          className="font-semibold"
           render={(value, item, index) => {
             return (page - 1) * 10 + index + 1;
           }}
         />
-        <Column title="Name" dataIndex="name" key="name" width={300} />
+        <Column
+          title="Name"
+          align="center"
+          className="font-semibold"
+          dataIndex="name"
+          key="name"
+          width={300}
+        />
 
         <Column
           title="Location"
           dataIndex={["locationId", "province"]}
           key="location"
+          align="center"
+          className="font-semibold"
         />
-        <Column title="Guest Max" dataIndex="guests" key="guests" />
-        <Column title="Price (VND)" dataIndex="price" key="price" />
+        <Column
+          title="Guest Max"
+          align="center"
+          className="font-semibold"
+          dataIndex="guests"
+          key="guests"
+        />
+        <Column
+          title="Price (VND)"
+          align="center"
+          className="font-semibold"
+          dataIndex="price"
+          key="price"
+        />
         <Column
           title="Image"
           dataIndex="image"
+          align="center"
+          className="font-semibold"
           key="image"
           render={(img, id) => {
             return (
@@ -106,6 +134,8 @@ export default function AdminRooms() {
           title="Update Img"
           dataIndex="_id"
           key="image"
+          align="center"
+          className="font-semibold"
           render={(id) => {
             return (
               <div>
@@ -146,27 +176,44 @@ export default function AdminRooms() {
           title="Action"
           dataIndex="_id"
           key="action"
-          render={(id, index) => {
+          align="center"
+          className="font-semibold"
+          render={(id) => {
             return (
               <>
-                <button
-                  onClick={() => {
-                    dispatch(getRoomDetailAction(id, locationId));
-                    // dispatch(getRoomListAction(locationId));
-                  }}
-                  className="text-blue-600 text-2xl mr-2 cursor-pointer"
-                >
-                  <EditOutlined />
-                </button>
-                <button
-                  onClick={() => {
-                    window.confirm("Bạn có chắc muốn xóa phòng này không?") &&
-                      dispatch(deleteRoomAction(id, locationId));
-                  }}
-                  className="text-red-600 text-2xl cursor-pointer"
-                >
-                  <DeleteOutlined />
-                </button>
+                <Tooltip title="Xem chi tiết">
+                  <button
+                    onClick={() => {
+                      dispatch(getRoomDetailAction(id));
+                      history.push(`/admin/rooms/detail/${id}`);
+                    }}
+                    className="text-green-600 text-2xl mr-4 cursor-pointer"
+                  >
+                    <FileSearchOutlined />
+                  </button>
+                </Tooltip>
+                <Tooltip title="Sửa">
+                  <button
+                    onClick={() => {
+                      dispatch(getRoomDetailAction(id, locationId));
+                      history.push(`/admin/rooms/edit/${locationId}`);
+                    }}
+                    className="text-blue-600 text-2xl mr-4 cursor-pointer"
+                  >
+                    <EditOutlined />
+                  </button>
+                </Tooltip>
+                <Tooltip title="Xóa">
+                  <button
+                    onClick={() => {
+                      window.confirm("Bạn có chắc muốn xóa phòng này không?") &&
+                        dispatch(deleteRoomAction(id, locationId));
+                    }}
+                    className="text-red-600 text-2xl cursor-pointer"
+                  >
+                    <DeleteOutlined />
+                  </button>
+                </Tooltip>
               </>
             );
           }}
