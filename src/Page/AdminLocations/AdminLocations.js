@@ -208,7 +208,7 @@ export default function AdminLocation() {
           render={(id) => {
             return (
               <>
-                <Tooltip title="Xem chi tiết">
+                <Tooltip title="Xem chi tiết vị trí">
                   <button
                     onClick={() => {
                       dispatch(getLocationDetailAction(id));
@@ -220,7 +220,7 @@ export default function AdminLocation() {
                     <FileSearchOutlined />
                   </button>
                 </Tooltip>
-                <Tooltip title="Sửa">
+                <Tooltip title="Sửa thông tin vị trí">
                   <button
                     onClick={() => {
                       dispatch(getLocationDetailAction(id));
@@ -231,7 +231,7 @@ export default function AdminLocation() {
                     <EditOutlined />
                   </button>
                 </Tooltip>
-                <Tooltip title="Xóa">
+                <Tooltip title="Xóa vị trí">
                   <button
                     onClick={() => {
                       window.confirm(

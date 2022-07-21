@@ -20,6 +20,7 @@ import AdminDashBoard from "./Page/AdminDashBoard/AdminDashBoard";
 import AdminUserProfile from "./Page/AdminUsers/AdminUserProfile/AdminUserProfile";
 import AdminLocationDetail from "./Page/AdminLocations/AdminLocationDetail/AdminLocationDetail";
 import AdminRoomDetail from "./Page/AdminRooms/AdminRoomDetail/AdminRoomDetail";
+import AdminValueate from "./Page/AdminValueate/AdminValueate";
 
 export const history = createBrowserHistory();
 
@@ -130,6 +131,13 @@ export default function App() {
             path="/admin/rooms/edit/:locationId"
             render={() => {
               return <AdminTemplate Component={AdminEditRoom} />;
+            }}
+          />
+          <Route
+            exact
+            path="/admin/reviewsByRoom/:roomId"
+            render={() => {
+              return <AdminTemplate Component={AdminValueate} />;
             }}
           />
         </Switch>

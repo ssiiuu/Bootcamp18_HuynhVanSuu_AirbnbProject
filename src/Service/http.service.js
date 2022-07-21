@@ -109,6 +109,28 @@ class HttpRequestService {
     const uri = `/api/rooms/upload-image/${id}`;
     return AxiosServ.postMethod(uri, roomImg);
   };
+
+  // Valueate Services
+  getValueateListByRoom = (roomId) => {
+    const uri = `/api/reviews/byRoom?roomId=${roomId}`;
+    return AxiosServ.getMethod(uri, roomId);
+  };
+  addValueateByRoom = (data, roomId) => {
+    const uri = `/api/reviews?roomId=${roomId}`;
+    return AxiosServ.postMethod(uri, data);
+  };
+  deleteValueateByRoom = (valueateId) => {
+    const uri = `/api/reviews/${valueateId}`;
+    return AxiosServ.deleteMothod(uri);
+  };
+  getValueateDetail = (valueateId) => {
+    const uri = `/api/reviews/${valueateId}`;
+    return AxiosServ.getMethod(uri);
+  };
+  updateValueateDetail = (data, valueateId) => {
+    const uri = `/api/reviews/${valueateId}`;
+    return AxiosServ.putMethod(uri, data);
+  };
 }
 
 const httpServ = new HttpRequestService();

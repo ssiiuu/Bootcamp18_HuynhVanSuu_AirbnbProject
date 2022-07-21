@@ -4,6 +4,7 @@ import {
   EditOutlined,
   DeleteOutlined,
   FileSearchOutlined,
+  LikeOutlined,
 } from "@ant-design/icons";
 import { Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
@@ -34,6 +35,7 @@ export default function AdminRooms() {
   }, []);
 
   let { roomList } = useSelector((state) => state.roomReducer);
+  console.log("roomList", roomList);
   let roomListData = roomList.filter((room) => {
     return room.locationId;
   });
@@ -48,17 +50,28 @@ export default function AdminRooms() {
     setSelectedFile(file);
   };
   return (
-    <div className="">
-      <Button
-        onClick={() => {
-          history.push(`/admin/rooms/addnew/${locationId}`);
-        }}
-        size="large"
-        className="ml-5 mb-5 text-red-500 bg-white border-red-500 hover:bg-red-500 hover:text-white rounded"
-      >
-        Thêm phòng mới
-      </Button>
-
+    <div>
+      <div className="flex mb-5">
+        <div className="flex items-end ml-5">
+          <h1 className="mr-2">Danh sách phòng ở: </h1>
+          <h1 className="text-red-500 text-3xl font-bold m-0">
+            {roomList[0]?.locationId?.name}
+          </h1>
+          <span className="text-red-400 text-sm font-semibold ml-2 mb-1">
+            {roomList[0]?.locationId?.province},
+            {roomList[0]?.locationId?.country}
+          </span>
+        </div>
+        <Button
+          onClick={() => {
+            history.push(`/admin/rooms/addnew/${locationId}`);
+          }}
+          size="large"
+          className="ml-5 text-red-500 bg-white border-red-500 hover:bg-red-500 hover:text-white rounded"
+        >
+          Thêm phòng mới
+        </Button>
+      </div>
       <Table
         dataSource={roomListData}
         onChange={onChange}
@@ -76,6 +89,29 @@ export default function AdminRooms() {
           className="font-semibold"
           render={(value, item, index) => {
             return (page - 1) * 10 + index + 1;
+          }}
+        />
+        <Column
+          title="Reviews"
+          dataIndex="_id"
+          key="reviews"
+          align="center"
+          className="font-semibold"
+          render={(id) => {
+            return (
+              <>
+                <Tooltip title="Xem danh sách các đánh giá">
+                  <button
+                    onClick={() => {
+                      history.push(`/admin/reviewsByRoom/${id}`);
+                    }}
+                    className="text-yellow-600 text-2xl mr-4 cursor-pointer"
+                  >
+                    <LikeOutlined />
+                  </button>
+                </Tooltip>
+              </>
+            );
           }}
         />
         <Column
@@ -107,6 +143,9 @@ export default function AdminRooms() {
           className="font-semibold"
           dataIndex="price"
           key="price"
+          render={(price) => {
+            return price.toLocaleString();
+          }}
         />
         <Column
           title="Image"
@@ -181,7 +220,7 @@ export default function AdminRooms() {
           render={(id) => {
             return (
               <>
-                <Tooltip title="Xem chi tiết">
+                <Tooltip title="Xem chi tiết phòng">
                   <button
                     onClick={() => {
                       dispatch(getRoomDetailAction(id));
@@ -192,7 +231,7 @@ export default function AdminRooms() {
                     <FileSearchOutlined />
                   </button>
                 </Tooltip>
-                <Tooltip title="Sửa">
+                <Tooltip title="Sửa thông tin phòng">
                   <button
                     onClick={() => {
                       dispatch(getRoomDetailAction(id, locationId));
@@ -203,7 +242,7 @@ export default function AdminRooms() {
                     <EditOutlined />
                   </button>
                 </Tooltip>
-                <Tooltip title="Xóa">
+                <Tooltip title="Xóa phòng">
                   <button
                     onClick={() => {
                       window.confirm("Bạn có chắc muốn xóa phòng này không?") &&

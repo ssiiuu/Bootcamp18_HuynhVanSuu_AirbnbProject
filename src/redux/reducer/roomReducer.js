@@ -1,8 +1,9 @@
+import { RoomDetailModel } from "../../_core/models/roomDetailModel";
 import { ADD_ROOM, GET_ROOM_DETAIL, GET_ROOM_LIST } from "../type/roomType";
 
 const initialState = {
   roomList: [],
-  roomDetail: {},
+  roomDetail: new RoomDetailModel(),
 };
 
 export const roomReducer = (state = initialState, { type, payload }) => {

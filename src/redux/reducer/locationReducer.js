@@ -1,3 +1,4 @@
+import { LocationDetailModel } from "../../_core/models/locationDetailModel";
 import {
   ADD_LOCATION,
   GET_LOCATION_DETAIL,
@@ -6,7 +7,7 @@ import {
 
 let initialState = {
   locationList: [],
-  locationDetail: {},
+  locationDetail: new LocationDetailModel(),
 };
 
 export const locationReducer = (state = initialState, { type, payload }) => {
